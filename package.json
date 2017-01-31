@@ -1,0 +1,27 @@
+{
+  "name": "js-perf-benchmark",
+  "version": "1.0.0",
+  "description": "Javascript Performance Benchmark",
+  "main": "index.js",
+  "scripts": {
+    "bench": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/icebob/js-perf-benchmark.git"
+  },
+  "keywords": [],
+  "author": "Icebob",
+  "license": "MIT",
+  "homepage": "https://github.com/icebob/js-perf-benchmark#readme",
+  "dependencies": {
+    "benchmarkify": "1.0.0",
+    "bluebird": "3.4.7",
+    "fast-json-parse": "1.0.2",
+    "fast-json-stringify": "0.10.3",
+    "fast-safe-stringify": "1.1.4",
+    "lodash": "4.17.4",
+    "uuid": "3.0.1",
+    "uuid-token-generator": "0.5.0"
+  }
+}
