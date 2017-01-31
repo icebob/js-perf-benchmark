@@ -30,7 +30,7 @@ function runTest(dataName) {
 		return safeStringify(data);
 	});
 
-	bench.add("fast-json-stringify", () => {
+	bench.skip("fast-json-stringify", () => {
 		try {
 			return fastStringify(data);
 		} catch (e) {
