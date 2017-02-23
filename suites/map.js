@@ -14,11 +14,13 @@ let payload = {
 };
 const cycle = 10 * 1000;
 
+const prefix = "73d29a81-5d41-4043-b81e-9f206aecf3a2";
+
 bench1.add("Map.set", () => {
 	let map = new Map();
 	let c = 0;
 	while (++c < cycle) {
-		map.set("test-" + c, payload);
+		map.set(prefix + c, payload);
 	}
 });
 
@@ -26,7 +28,7 @@ bench1.add("Object[]", () => {
 	let obj = {};
 	let c = 0;
 	while (++c < cycle) {
-		obj["test-" + c] = payload;
+		obj[prefix + c] = payload;
 	}
 });
 
@@ -37,15 +39,15 @@ let obj = {};
 let map = new Map();
 let c = 0;
 while (++c < cycle) {
-	obj["test-" + c] = payload;
-	map.set("test-" + c, payload);
+	obj[prefix + c] = payload;
+	map.set(prefix + c, payload);
 }
 
 bench2.add("Map.get", () => {
 	let c = 0;
 	let res;
 	while (++c < cycle)
-		res = map.get("test-" + c);
+		res = map.get(prefix + c);
 	
 	return res;
 });
@@ -54,7 +56,7 @@ bench2.add("Object[]", () => {
 	let res;
 	let c = 0;
 	while (++c < cycle)
-		res = obj["test-" + c];
+		res = obj[prefix + c];
 	
 	return res;
 });
