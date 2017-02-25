@@ -8,6 +8,8 @@ Benchmarkify.printHeader("JSON stringify benchmark");
 
 let safeStringify = require("fast-safe-stringify");
 let fastStringify = require("fast-json-stringify");
+let json3 = require("json3");
+let jso5 = require("json5");
 
 let dataFiles = ["150", "1k", "10k", "50k", "100k", "1M"];
 
@@ -24,6 +26,14 @@ function runTest(dataName) {
 			console.error(e);
 			throw e;
 		}	
+	});
+
+	bench.add("json3.stringify", () => {
+		return json3.stringify(data);
+	});
+
+	bench.add("json5.stringify", () => {
+		return json5.stringify(data);
 	});
 
 	bench.add("fast-safe-stringify", () => {
