@@ -9,11 +9,22 @@ const cycle = 10 * 1000;
 
 // ----
 
-bench.add("Call every cycle", () => {
+bench.add("Call Date.now", () => {
 	let c = 0;
 	let time;
 	while (++c < cycle) {
 		time = Date.now();
+	}
+	return time;
+});
+
+// ----
+
+bench.add("Call process.hrtime", () => {
+	let c = 0;
+	let time;
+	while (++c < cycle) {
+		time = process.hrtime();
 	}
 	return time;
 });
