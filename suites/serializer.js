@@ -55,7 +55,10 @@ let data = {
 	const schema = avro.Type.forValue(data);
 
 	const t = schema.toBuffer(data);
-	console.log("avsc length: ", t.toString().length);
+	console.log("avsc length: ", Buffer.byteLength(t, 'utf8'));
+
+	const res = schema.fromBuffer(t);
+	console.log(res);
 
 	bench1.add("avsc", () => {
 		return schema.toBuffer(data);
@@ -83,4 +86,4 @@ let data = {
 
 
 
-bench1.run();
+//bench1.run();
