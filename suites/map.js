@@ -61,6 +61,33 @@ bench2.add("Object[]", () => {
 	return res;
 });
 
+const e7 = require("../utils/e7");
+
+let bench3 = new Benchmarkify({ async: false, name: "Set & Get & Delete with UUID key"});
+
+// Load work vars
+obj = {};
+map = new Map();
+c = 0;
+while (++c < 100) {
+	const id = e7();
+	map.set(id, payload);
+}
+
+bench3.add("Set & Get & Delete by uuid x 10k", () => {
+	let c = 0;
+	while (++c < cycle) {
+		const id = e7();
+		map.set(id, payload);
+		const res = map.get(id);
+		if (res == payload)
+			map.delete(id);
+	}	
+});
+
+
 bench1.run().then(() => {
 	return bench2.run();
+}).then(() => {
+	return bench3.run();
 });

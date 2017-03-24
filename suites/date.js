@@ -9,6 +9,17 @@ const cycle = 10 * 1000;
 
 // ----
 
+bench.add("Call new Date()", () => {
+	let c = 0;
+	let time;
+	while (++c < cycle) {
+		time = new Date();
+	}
+	return time;
+});
+
+// ----
+
 bench.add("Call Date.now", () => {
 	let c = 0;
 	let time;
