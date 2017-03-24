@@ -86,4 +86,4 @@ let data = {
 
 
 
-//bench1.run();
+bench1.run();
