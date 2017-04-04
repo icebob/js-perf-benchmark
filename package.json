@@ -4,7 +4,8 @@
   "description": "Javascript Performance Benchmark",
   "main": "index.js",
   "scripts": {
-    "bench": "node index.js"
+    "bench": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "avsc": "5.0.0",
+    "nodemon": "1.11.0",
     "pson": "2.0.0"
   }
 }
