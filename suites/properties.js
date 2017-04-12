@@ -1,7 +1,5 @@
 "use strict";
 
-let Promise	= require("bluebird");
-
 let Benchmarkify = require("benchmarkify");
 let benchmark = new Benchmarkify("Object properties").printHeader();
 
@@ -30,7 +28,7 @@ bench.add("Create object with 8 prop", () => {
 	return opts;
 });
 
-bench.add("Create object with 10 prop", () => {
+bench.add("Create object with 9 prop", () => {
 	let opts = {
 		prop1: 5,
 		prop2: "",
