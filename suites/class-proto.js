@@ -3,9 +3,9 @@
 let Promise	= require("bluebird");
 
 let Benchmarkify = require("benchmarkify");
-Benchmarkify.printHeader("Class vs Prototypes");
+let benchmark = new Benchmarkify("Class vs Prototypes").printHeader();
 
-let bench = new Benchmarkify({ async: false, name: "Classes vs Prototype"});
+let bench = benchmark.createSuite("Classes vs Prototype");
 
 // ----
 function ProtoObj() {

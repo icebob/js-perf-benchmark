@@ -1,9 +1,9 @@
 "use strict";
 
 let Benchmarkify = require("benchmarkify");
-Benchmarkify.printHeader("Date.now benchmark");
+let benchmark = new Benchmarkify("Date.now benchmark").printHeader();
 
-let bench = new Benchmarkify({ async: false, name: "Date.now() performance"});
+let bench = benchmark.createSuite("Date.now() performance");
 
 const cycle = 10 * 1000;
 

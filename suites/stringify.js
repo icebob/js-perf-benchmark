@@ -4,7 +4,7 @@ let Promise	= require("bluebird");
 let { getDataFile } = require("../utils");
 
 let Benchmarkify = require("benchmarkify");
-Benchmarkify.printHeader("JSON stringify benchmark");
+let benchmark = new Benchmarkify("JSON stringify benchmark").printHeader();
 
 let safeStringify = require("fast-safe-stringify");
 let fastStringify = require("fast-json-stringify");
@@ -15,7 +15,7 @@ let dataFiles = ["150", "1k", "10k", "50k", "100k", "1M"];
 
 function runTest(dataName) {
 
-	let bench = new Benchmarkify({ async: false, name: `Stringify JS object to JSON (${dataName})`});
+	let bench = benchmark.createSuite(`Stringify JS object to JSON (${dataName})`);
 	let data = JSON.parse(getDataFile(dataName + ".json"));
 
 	// ----

@@ -4,13 +4,13 @@ let Promise	= require("bluebird");
 let { getDataFile } = require("../utils");
 
 let Benchmarkify = require("benchmarkify");
-Benchmarkify.printHeader("JSON parser benchmark");
+let benchmark = new Benchmarkify("JSON parser benchmark").printHeader();
 
 let parse = require("fast-json-parse");
 let json3 = require("json3");
 let json5 = require("json5");
 
-let bench = new Benchmarkify({ async: false, name: "Parse JSON (150b) to JS object"});
+let bench = benchmark.createSuite("Parse JSON (150b) to JS object");
 let data = getDataFile("150.json");
 
 // ----

@@ -4,9 +4,9 @@ let _ = require("lodash");
 let Promise	= require("bluebird");
 
 let Benchmarkify = require("benchmarkify");
-Benchmarkify.printHeader("Map vs. Object benchmark");
+let benchmark = new Benchmarkify("Map vs. Object benchmark").printHeader();
 
-let bench1 = new Benchmarkify({ async: false, name: "Set Map vs. Add props to object"});
+let bench1 = benchmark.createSuite("Set Map vs. Add props to object");
 
 let payload = {
 	a: 1, 
@@ -32,7 +32,7 @@ bench1.add("Object[]", () => {
 	}
 });
 
-let bench2 = new Benchmarkify({ async: false, name: "Get Map vs. Get props from object"});
+let bench2 = benchmark.createSuite("Get Map vs. Get props from object");
 
 // Load work vars
 let obj = {};
@@ -63,7 +63,7 @@ bench2.add("Object[]", () => {
 
 const e7 = require("../utils/e7");
 
-let bench3 = new Benchmarkify({ async: false, name: "Set & Get & Delete with UUID key"});
+let bench3 = benchmark.createSuite("Set & Get & Delete with UUID key");
 
 // Load work vars
 obj = {};

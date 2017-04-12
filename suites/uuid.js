@@ -1,14 +1,14 @@
 "use strict";
 
 let Benchmarkify = require("benchmarkify");
-Benchmarkify.printHeader("UUID benchmark");
+let benchmark = new Benchmarkify("UUID benchmark").printHeader();
 
 let TokenGenerator = require("uuid-token-generator");
 let tokgen128 = new TokenGenerator(128, TokenGenerator.BASE62);
 const uuidV4 = require("uuid/v4");
 const e7 = require("../utils/e7");
 
-let bench = new Benchmarkify({ async: false, name: "UUID generators"});
+let bench = benchmark.createSuite("UUID generators");
 
 // ----
 console.log("uuid-token-generator:", tokgen128.generate());

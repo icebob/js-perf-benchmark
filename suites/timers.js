@@ -4,9 +4,9 @@ let _ = require("lodash");
 let Promise	= require("bluebird");
 
 let Benchmarkify = require("benchmarkify");
-Benchmarkify.printHeader("Timers benchmark");
+let benchmark = new Benchmarkify("Timers benchmark").printHeader();
 
-let bench1 = new Benchmarkify({ async: false, name: "setTimeout & unref"});
+let bench1 = benchmark.createSuite("setTimeout & unref");
 
 bench1.add("setTimeout", () => {
 	return setTimeout(() => {

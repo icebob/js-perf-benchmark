@@ -3,9 +3,9 @@
 let Promise	= require("bluebird");
 
 let Benchmarkify = require("benchmarkify");
-Benchmarkify.printHeader("Class instances");
+let benchmark = new Benchmarkify("Class instances").printHeader();
 
-let bench = new Benchmarkify({ async: false, name: "Class instances performance"});
+let bench = benchmark.createSuite("Class instances performance");
 
 // ----
 

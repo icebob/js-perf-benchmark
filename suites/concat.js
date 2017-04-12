@@ -3,9 +3,9 @@
 let Promise	= require("bluebird");
 
 let Benchmarkify = require("benchmarkify");
-Benchmarkify.printHeader("Concatenation");
+let benchmark = new Benchmarkify("Concatenation").printHeader();
 
-let bench = new Benchmarkify({ async: false, name: "String concat"});
+let bench = benchmark.createSuite("String concat");
 
 // ----
 let str1 = "John";

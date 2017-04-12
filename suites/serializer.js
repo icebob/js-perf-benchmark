@@ -1,9 +1,9 @@
 "use strict";
 
 let Benchmarkify = require("benchmarkify");
-Benchmarkify.printHeader("Serializer benchmark");
+let benchmark = new Benchmarkify("Serializer benchmark").printHeader();
 
-let bench1 = new Benchmarkify({ async: false, name: "Serialize object" });
+let bench1 = benchmark.createSuite("Serialize object");
 
 // ----
 

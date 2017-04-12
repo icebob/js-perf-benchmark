@@ -3,9 +3,9 @@
 let Promise	= require("bluebird");
 
 let Benchmarkify = require("benchmarkify");
-Benchmarkify.printHeader("Assign");
+let benchmark = new Benchmarkify("Assign").printHeader();
 
-let bench = new Benchmarkify({ async: false, name: "Object assign"});
+let bench = benchmark.createSuite("Object assign");
 
 // ----
 
