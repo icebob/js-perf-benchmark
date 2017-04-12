@@ -2,6 +2,7 @@
 
 let _ = require("lodash");
 let PromiseBB = require("bluebird");
+let PromiseAigle = require("aigle");
 
 let Benchmarkify = require("benchmarkify");
 Benchmarkify.printHeader("Promise vs BlueBird vs Native");
@@ -12,29 +13,29 @@ function add(a, b) {
 	return a + b;
 }
 
-bench.skip("No promise", () => {
+bench.add("No promise", () => {
 	return add(5, 8);
 }, false);
 
-bench.skip("ES6 Promise.resolve", () => {
+bench.add("ES6 Promise.resolve", () => {
 	return Promise.resolve().then(() => {
 		return add(5, 8);
 	});
 });
 
-bench.skip("ES6 new Promise", () => {
+bench.add("ES6 new Promise", () => {
 	return new Promise(resolve => {
 		resolve(add(5, 8));
 	});
 });
 
-bench.skip("Bluebird Promise.resolve", () => {
+bench.add("Bluebird Promise.resolve", () => {
 	return PromiseBB.resolve().then(() => {
 		return add(5, 8);
 	});
 });
 
-bench.skip("Bluebird Promise.resolve + 5 x then", () => {
+bench.add("Bluebird Promise.resolve + 5 x then", () => {
 	return PromiseBB.resolve()
 		.then(() => add(5, 8))
 		.then(() => add(3, 2))
@@ -43,29 +44,32 @@ bench.skip("Bluebird Promise.resolve + 5 x then", () => {
 		.then(() => add(6, 7));
 });
 
-bench.skip("Bluebird new Promise", () => {
+bench.add("Bluebird new Promise", () => {
 	return new PromiseBB(resolve => {
 		resolve(add(5, 8));
 	});
 });
-/*
-function resolver(resolve) {
 
-		let req = {
-			a: 5,
-			b: "Hello",
-			c: true,
-			d: null
-		};
-		resolve(add(req.a, 8));
-
-}
-
-bench.add("Bluebird new Promise with local var", () => {
-	return new PromiseBB(resolve => {
-		return resolver(resolve);
+bench.add("Aigle Promise.resolve", () => {
+	return PromiseAigle.resolve().then(() => {
+		return add(5, 8);
 	});
 });
-*/
+
+bench.add("Aigle Promise.resolve + 5 x then", () => {
+	return PromiseAigle.resolve()
+		.then(() => add(5, 8))
+		.then(() => add(3, 2))
+		.then(() => add(9, 3))
+		.then(() => add(1, 4))
+		.then(() => add(6, 7));
+});
+
+bench.add("Aigle new Promise", () => {
+	return new PromiseAigle(resolve => {
+		resolve(add(5, 8));
+	});
+});
+
 
 bench.run();

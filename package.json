@@ -16,6 +16,7 @@
   "license": "MIT",
   "homepage": "https://github.com/icebob/js-perf-benchmark#readme",
   "dependencies": {
+    "aigle": "1.1.0",
     "benchmarkify": "1.0.0",
     "bluebird": "3.4.7",
     "fast-json-parse": "1.0.2",
