@@ -5,6 +5,12 @@ let benchmark = new Benchmarkify("Object properties").printHeader();
 
 let bench = benchmark.createSuite("Create object with many properties");
 
+/*
+	Discussion about this suite:
+	
+		http://stackoverflow.com/questions/43372746/why-so-bad-the-performance-of-the-nodejs-object-creation-if-num-of-props-greater
+*/
+
 function OneProp() {
     this.prop1 = 5;
 }
