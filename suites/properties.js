@@ -37,9 +37,7 @@ bench.add("Create object with 9 prop", () => {
 		prop5: 0,
 		prop6: null,
 		prop7: "Hello",
-		prop8: 12345,
-		prop9: "asd",
-		prop10: false
+		prop8: 12345
 	};
 	return opts;
 });
