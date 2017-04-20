@@ -4,6 +4,7 @@ let Benchmarkify = require("benchmarkify");
 let benchmark = new Benchmarkify("Serializer benchmark").printHeader();
 
 let bench1 = benchmark.createSuite("Serialize object");
+let bench2 = benchmark.createSuite("Deserialize object");
 
 // ----
 
@@ -42,6 +43,7 @@ let data = {
 
 })();*/
 
+/*
 (function () {
 
 	function serialize(o) {
@@ -66,6 +68,8 @@ let data = {
 	});
 
 })();
+*/
+
 /*
 (function () {
 
@@ -101,6 +105,10 @@ let data = {
 		return JSON.stringify(data);
 	});
 
+	bench2.add("JSON.parse", () => {
+		return JSON.parse(t);
+	});
+
 })();
 
 // ----
@@ -108,7 +116,7 @@ let data = {
 (function () {
 	const avro = require('avsc');
 
-	/*const schema = avro.Type.forSchema({
+	const schema = avro.Type.forSchema({
 		type: 'record',
 		fields: [
 			{ name: 'nodeID', type: 'string' },
@@ -125,20 +133,24 @@ let data = {
 				}
 			}
 		]
-	});*/
-	/*
-	const schema = avro.Type.forValue(data);
+	});
+	
+	//const schema = avro.Type.forValue(data);
 
-	const t = schema.toBuffer(data);
-	console.log("avsc length: ", Buffer.byteLength(t, 'utf8'));
+	const buff = schema.toBuffer(data);
+	console.log("avsc length: ", Buffer.byteLength(buff, 'utf8'));
 
-	const res = schema.fromBuffer(t);
-	console.log(res);
+	//const res = schema.fromBuffer(t);
+	//console.log(res);
 
-	bench1.add("avsc", () => {
+	bench1.add("avsc.toBuffer", () => {
 		return schema.toBuffer(data);
 	});
-*/
+
+	bench2.add("avsc.fromBuffer", () => {
+		return schema.fromBuffer(buff);
+	})
+
 })();
 
 // ----
@@ -161,4 +173,22 @@ let data = {
 
 */
 
-bench1.run();
+(function() {
+	const staticProto = require("./example.proto.js");
+	const Packet = staticProto.packets.Packet;
+
+	let buff = Packet.encode(data).finish();
+	console.log("protobuf length: ", Buffer.byteLength(buff, 'utf8'));
+
+	bench1.add("protobuf.encode", () => {
+		return Packet.encode(data).finish();
+	});
+
+	bench2.add("protobuf.decode", () => {
+		return Packet.decode(buff);
+	});	
+
+})();
+
+benchmark.run([bench1, bench2]);
+

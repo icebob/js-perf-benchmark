@@ -1,0 +1,16 @@
+// example.proto
+package packets;
+syntax = "proto3";
+
+message Params {
+	int32 limit = 1;
+	string sort = 2;
+	string q = 3;
+}
+
+message Packet {
+	string nodeID = 1;
+	string requestID = 2;
+	string action = 3;
+	Params params = 4;
+}
