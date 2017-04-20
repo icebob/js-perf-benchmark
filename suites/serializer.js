@@ -76,14 +76,14 @@ let data = {
 
 	const t = serialize(data);
 	console.log("serialize v2 length:", t.length);
-	console.log("serialize v2:", serialize(data));
-	console.log("deserialize v2:", deserialize(t));
+	//console.log("serialize v2:", serialize(data));
+	//console.log("deserialize v2:", deserialize(t));
 
-	bench1.only("serialize v2 with Array[0]", () => {
+	bench1.add("serialize v2 with Array[0]", () => {
 		return serialize(data);
 	});
 
-	bench2.only("deserialize v2 with Array[0]", () => {
+	bench2.add("deserialize v2 with Array[0]", () => {
 		return deserialize(t);
 	});
 
