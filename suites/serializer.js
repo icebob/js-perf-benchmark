@@ -43,7 +43,7 @@ let data = {
 
 })();*/
 
-/*
+
 (function () {
 
 	function serialize(o) {
@@ -56,19 +56,39 @@ let data = {
 		buf[4] = data.params.sort;
 		buf[5] = data.params.q;
 
-		return buf.join("|");
+		return buf.join("\n");
 	}
 
-	
-	console.log("serialize v2 length:", serialize(data).length);
-	console.log("serialize v2:", serialize(data));
+	function deserialize(o) {
+		const arr = o.split("\n");
+		const res = {
+			params: {}
+		};
+		res.nodeID = arr[0];
+		res.requestID = arr[1];
+		res.action = arr[2];
+		res.params.limit = arr[3];
+		res.params.sort = arr[4];
+		res.params.q = arr[5];
 
-	bench1.add("serialize v2 with Array[0]", () => {
+		return res;
+	}
+
+	const t = serialize(data);
+	console.log("serialize v2 length:", t.length);
+	console.log("serialize v2:", serialize(data));
+	console.log("deserialize v2:", deserialize(t));
+
+	bench1.only("serialize v2 with Array[0]", () => {
 		return serialize(data);
 	});
 
+	bench2.only("deserialize v2 with Array[0]", () => {
+		return deserialize(t);
+	});
+
 })();
-*/
+
 
 /*
 (function () {
