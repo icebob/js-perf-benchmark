@@ -131,6 +131,22 @@ let data = {
 
 })();
 
+(function () {
+	const jsonpack = require('jsonpack');
+
+	const t = jsonpack.pack(data);
+	console.log("JSONPack length: ", t.length);
+
+	bench1.add("JSONPack.pack", () => {
+		return jsonpack.pack(data);
+	});
+
+	bench2.add("JSONPack.unpack", () => {
+		return jsonpack.unpack(t);
+	});
+
+})();
+
 // ----
 
 (function () {

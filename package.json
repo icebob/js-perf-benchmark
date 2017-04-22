@@ -25,6 +25,7 @@
     "fast-safe-stringify": "1.1.4",
     "json3": "3.3.2",
     "json5": "0.5.1",
+    "jsonpack": "1.1.5",
     "lodash": "4.17.4",
     "protobufjs": "6.7.3",
     "uuid": "3.0.1",
