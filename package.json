@@ -18,8 +18,10 @@
   "homepage": "https://github.com/icebob/js-perf-benchmark#readme",
   "dependencies": {
     "aigle": "1.2.0",
+    "avsc": "5.0.0",
     "benchmarkify": "2.1.0",
     "bluebird": "3.4.7",
+    "compactr": "2.2.0",
     "fast-json-parse": "1.0.2",
     "fast-json-stringify": "0.10.3",
     "fast-safe-stringify": "1.1.4",
@@ -27,13 +29,10 @@
     "json5": "0.5.1",
     "jsonpack": "1.1.5",
     "lodash": "4.17.4",
+    "nodemon": "1.11.0",
     "protobufjs": "6.7.3",
+    "pson": "2.0.0",
     "uuid": "3.0.1",
     "uuid-token-generator": "0.5.0"
-  },
-  "devDependencies": {
-    "avsc": "5.0.0",
-    "nodemon": "1.11.0",
-    "pson": "2.0.0"
   }
 }

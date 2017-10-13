@@ -41,7 +41,7 @@ let data = {
 		return serialize(data);
 	});
 
-})();*/
+})();
 
 
 (function () {
@@ -67,7 +67,7 @@ let data = {
 		res.nodeID = arr[0];
 		res.requestID = arr[1];
 		res.action = arr[2];
-		res.params.limit = arr[3];
+		res.params.limit = Number(arr[3]);
 		res.params.sort = arr[4];
 		res.params.q = arr[5];
 
@@ -90,7 +90,7 @@ let data = {
 })();
 
 
-/*
+
 (function () {
 
 	function serialize(o) {
@@ -107,15 +107,15 @@ let data = {
 		return buf;
 	}
 
-	
-	console.log("serialize v3 length: ", serialize(data));
+	let buf = serialize(data);
+	console.log("serialize v3 length: ", Buffer.byteLength(buf, 'utf8'));
 
 	bench1.add("serialize v3 with Buffer", () => {
 		return serialize(data);
 	});
 
-})();*/
-
+})();
+*/
 (function () {
 
 	const t = JSON.stringify(data);
@@ -185,6 +185,34 @@ let data = {
 
 	bench2.add("avsc.fromBuffer", () => {
 		return schema.fromBuffer(buff);
+	})
+
+})();
+
+
+(function () {
+	const Compactr = require('compactr');
+
+	const schema = Compactr.schema({
+		nodeID: { type: 'string' },
+		requestID: { type: 'string' },
+		action: { type: 'string' },
+		params: { type: 'object', schema: {
+			limit: { type: 'number' },
+			sort: { type: 'string' },
+			q: { type: 'string' }
+		}}
+	});
+	
+	const buff = schema.write(data).buffer();
+	console.log("compactr length: ", Buffer.byteLength(buff, 'utf8'));
+
+	bench1.add("compactr.write", () => {
+		return schema.write(data).buffer();
+	});
+
+	bench2.add("compactr.read", () => {
+		return schema.read(buff);
 	})
 
 })();
