@@ -3,6 +3,8 @@
 let Benchmarkify = require("benchmarkify");
 let benchmark = new Benchmarkify("Serializer benchmark").printHeader();
 
+let _ = require("lodash");
+
 let bench1 = benchmark.createSuite("Serialize object");
 let bench2 = benchmark.createSuite("Deserialize object");
 
@@ -16,7 +18,13 @@ let data = {
 		limit: 5,
 		sort: "-createdAt -votes",
 		q: "test"
-	}
+	},
+	success: true,
+	fields: [
+		"id",
+		"name",
+		"status"
+	]
 };
 /*
 (function () {
@@ -24,43 +32,87 @@ let data = {
 	function serialize(o) {
 		const buf = [];
 
-		buf.push(data.nodeID);
-		buf.push(data.requestID);
-		buf.push(data.action);
-		buf.push("" + data.params.limit);
-		buf.push(data.params.sort);
-		buf.push(data.params.q);
+		buf.push(o.nodeID);
+		buf.push(o.requestID);
+		buf.push(o.action);
+		buf.push(o.params.limit);
+		buf.push(o.params.sort);
+		buf.push(o.params.q);
 
-		return buf.join("|");
+		buf.push(o.success ? 1 : 0);
+
+		buf.push(o.fields.length);
+
+		for (let i = 0; i < o.fields.length; i++)
+			buf.push(o.fields[i]);
+
+		return buf.join("\0");		
 	}
 	
-	console.log("serialize v1 length:", serialize(data).length);
-	console.log("serialize v1:", serialize(data));
+	function deserialize(o) {
+		const arr = o.split("\0");
+		const res = {
+			nodeID: arr[0],
+			requestID: arr[1],
+			action: arr[2],
+			params: {
+				limit: Number(arr[3]),
+				sort: arr[4],
+				q: arr[5]
+			},
+			success: !!arr[6],
+			fields: []
+		};
+
+		for(let i = 0; i < arr[7]; i++)
+			res.fields[i] = arr[8 + i];
+
+		return res;
+	}
+
+	const t = serialize(data);
+	console.log("serialize v1 length:", t.length);
+	console.log("serialize v1:", t);
+
+	const r = deserialize(t);
+
+	if (r == t)
+		throw new Error("Same object!");
+	if (_.isEqual(r, t))
+		throw new Error("The source & result is not equal!");
 
 	bench1.add("serialize v1 with Array.push", () => {
 		return serialize(data);
 	});
 
+	bench2.add("deserialize v1 with Array.push", () => {
+		return deserialize(t);
+	});
 })();
-
-
+*/
+/*
 (function () {
 
 	function serialize(o) {
-		const buf = new Array(6);
+		const buf = new Array(6 + 1 + 4);
 
-		buf[0] = data.nodeID;
-		buf[1] = data.requestID;
-		buf[2] = data.action;
-		buf[3] = data.params.limit;
-		buf[4] = data.params.sort;
-		buf[5] = data.params.q;
+		buf[0] = o.nodeID;
+		buf[1] = o.requestID;
+		buf[2] = o.action;
+		buf[3] = o.params.limit;
+		buf[4] = o.params.sort;
+		buf[5] = o.params.q;
 
-		return buf.join("\n");
+		buf[6] = o.fields.length;
+
+		for (let i = 0; i < o.fields.length; i++)
+			buf[7 + i] = o.fields[i];
+
+		return buf.join("\0");
 	}
 
 	function deserialize(o) {
-		const arr = o.split("\n");
+		const arr = o.split("\0");
 		const res = {
 			params: {}
 		};
@@ -71,6 +123,10 @@ let data = {
 		res.params.sort = arr[4];
 		res.params.q = arr[5];
 
+		res.fields = new Array(arr[6]);
+		for(let i = 0; i < arr[6]; i++)
+			res.fields[i] = arr[7 + i];
+
 		return res;
 	}
 
@@ -78,6 +134,15 @@ let data = {
 	console.log("serialize v2 length:", t.length);
 	//console.log("serialize v2:", serialize(data));
 	//console.log("deserialize v2:", deserialize(t));
+
+	const r = deserialize(t);
+
+	if (r == t)
+		throw new Error("Same object!");
+	if (_.isEqual(r, t))
+		throw new Error("The source & result is not equal!");
+
+	console.log(r);
 
 	bench1.add("serialize v2 with Array[0]", () => {
 		return serialize(data);
@@ -90,25 +155,29 @@ let data = {
 })();
 
 
-
 (function () {
 
 	function serialize(o) {
-		//const buf = Buffer.allocUnsafe(160);
-		const buf = new Buffer(160);
+		const buf = Buffer.allocUnsafe(310);
 
-		buf.write(data.nodeID);
-		buf.write(data.requestID);
-		buf.write(data.action);
-		buf.writeInt32LE(data.params.limit);
-		buf.write(data.params.sort);
-		buf.write(data.params.q);
+		let offset = 0;
+		offset += buf.write(o.nodeID, offset);
+		offset += buf.write(o.requestID, offset);
+		offset += buf.write(o.action, offset);
+		offset += buf.writeInt32LE(o.params.limit, offset);
+		offset += buf.write(o.params.sort, offset);
+		offset += buf.write(o.params.q, offset);
+		
+		offset += buf.writeUInt32BE(o.fields.length, offset);
+
+		for (let i = 0; i < o.fields.length; i++)
+			offset += buf.write(o.fields[i], offset);
 
 		return buf;
 	}
 
 	let buf = serialize(data);
-	console.log("serialize v3 length: ", Buffer.byteLength(buf, 'utf8'));
+	console.log("serialize v3 length: ", buf.length);
 
 	bench1.add("serialize v3 with Buffer", () => {
 		return serialize(data);
@@ -167,6 +236,12 @@ let data = {
 						{ name: 'q', type: 'string' }
 					]
 				}
+			},
+			{ name: 'success', type: 'boolean' },
+			{
+				name: 'fields', type: {
+					type: 'array', items: "string"
+				}
 			}
 		]
 	});
@@ -201,7 +276,9 @@ let data = {
 			limit: { type: 'number' },
 			sort: { type: 'string' },
 			q: { type: 'string' }
-		}}
+		}},
+		success: { type: 'boolean' },
+		fields: { type: 'array', items: { type: 'string' }}
 	});
 	
 	const buff = schema.write(data).buffer();

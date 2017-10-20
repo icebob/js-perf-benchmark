@@ -13,4 +13,8 @@ message Packet {
 		string sort = 2;
 		string q = 3;
 	}
+
+	bool success = 5;
+
+	repeated string fields = 6;
 }

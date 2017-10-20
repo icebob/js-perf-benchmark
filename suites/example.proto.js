@@ -28,6 +28,8 @@ $root.packets = (function() {
          * @property {string} [requestID] Packet requestID.
          * @property {string} [action] Packet action.
          * @property {packets.Packet.Params$Properties} [params] Packet params.
+         * @property {boolean} [success] Packet success.
+         * @property {Array.<string>} [fields] Packet fields.
          */
 
         /**
@@ -37,6 +39,7 @@ $root.packets = (function() {
          * @param {packets.Packet$Properties=} [properties] Properties to set
          */
         function Packet(properties) {
+            this.fields = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -68,6 +71,18 @@ $root.packets = (function() {
         Packet.prototype.params = null;
 
         /**
+         * Packet success.
+         * @type {boolean}
+         */
+        Packet.prototype.success = false;
+
+        /**
+         * Packet fields.
+         * @type {Array.<string>}
+         */
+        Packet.prototype.fields = $util.emptyArray;
+
+        /**
          * Creates a new Packet instance using the specified properties.
          * @param {packets.Packet$Properties=} [properties] Properties to set
          * @returns {packets.Packet} Packet instance
@@ -93,6 +108,11 @@ $root.packets = (function() {
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.action);
             if (message.params != null && message.hasOwnProperty("params"))
                 $root.packets.Packet.Params.encode(message.params, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+            if (message.success != null && message.hasOwnProperty("success"))
+                writer.uint32(/* id 5, wireType 0 =*/40).bool(message.success);
+            if (message.fields != null && message.fields.length)
+                for (var i = 0; i < message.fields.length; ++i)
+                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.fields[i]);
             return writer;
         };
 
@@ -132,6 +152,14 @@ $root.packets = (function() {
                     break;
                 case 4:
                     message.params = $root.packets.Packet.Params.decode(reader, reader.uint32());
+                    break;
+                case 5:
+                    message.success = reader.bool();
+                    break;
+                case 6:
+                    if (!(message.fields && message.fields.length))
+                        message.fields = [];
+                    message.fields.push(reader.string());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -176,6 +204,16 @@ $root.packets = (function() {
                 if (error)
                     return "params." + error;
             }
+            if (message.success != null && message.hasOwnProperty("success"))
+                if (typeof message.success !== "boolean")
+                    return "success: boolean expected";
+            if (message.fields != null && message.hasOwnProperty("fields")) {
+                if (!Array.isArray(message.fields))
+                    return "fields: array expected";
+                for (var i = 0; i < message.fields.length; ++i)
+                    if (!$util.isString(message.fields[i]))
+                        return "fields: string[] expected";
+            }
             return null;
         };
 
@@ -199,6 +237,15 @@ $root.packets = (function() {
                     throw TypeError(".packets.Packet.params: object expected");
                 message.params = $root.packets.Packet.Params.fromObject(object.params);
             }
+            if (object.success != null)
+                message.success = Boolean(object.success);
+            if (object.fields) {
+                if (!Array.isArray(object.fields))
+                    throw TypeError(".packets.Packet.fields: array expected");
+                message.fields = [];
+                for (var i = 0; i < object.fields.length; ++i)
+                    message.fields[i] = String(object.fields[i]);
+            }
             return message;
         };
 
@@ -221,11 +268,14 @@ $root.packets = (function() {
             if (!options)
                 options = {};
             var object = {};
+            if (options.arrays || options.defaults)
+                object.fields = [];
             if (options.defaults) {
                 object.nodeID = "";
                 object.requestID = "";
                 object.action = "";
                 object.params = null;
+                object.success = false;
             }
             if (message.nodeID != null && message.hasOwnProperty("nodeID"))
                 object.nodeID = message.nodeID;
@@ -235,6 +285,13 @@ $root.packets = (function() {
                 object.action = message.action;
             if (message.params != null && message.hasOwnProperty("params"))
                 object.params = $root.packets.Packet.Params.toObject(message.params, options);
+            if (message.success != null && message.hasOwnProperty("success"))
+                object.success = message.success;
+            if (message.fields && message.fields.length) {
+                object.fields = [];
+                for (var j = 0; j < message.fields.length; ++j)
+                    object.fields[j] = message.fields[j];
+            }
             return object;
         };
 
