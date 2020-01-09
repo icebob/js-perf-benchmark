@@ -32,6 +32,16 @@ bench.add("ES6 new Promise", done => {
 	});
 });
 
+bench.add("ES6 Promise.resolve + 5 x then", done => {
+	return Promise.resolve()
+		.then(() => add(5, 8))
+		.then(() => add(3, 2))
+		.then(() => add(9, 3))
+		.then(() => add(1, 4))
+		.then(() => add(6, 7))
+		.then(() => done());
+});
+
 bench.add("Bluebird Promise.resolve", done => {
 	return PromiseBB.resolve().then(() => {
 		add(5, 8);
