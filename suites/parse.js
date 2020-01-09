@@ -34,3 +34,29 @@ bench.add("fast-json-parse", () => {
 });
 
 bench.run();
+
+/*
+=========================
+  JSON parser benchmark
+=========================
+
+Platform info:
+==============
+   Windows_NT 6.1.7601 x64
+   Node.JS: 10.16.0
+   V8: 6.8.275.32-node.52
+   Intel(R) Core(TM) i7-4770K CPU @ 3.50GHz × 8
+
+Suite: Parse JSON (150b) to JS object
+√ Built-in JSON.parse           943,405 rps
+√ json3.parse                   918,587 rps
+√ json5.parse                    49,783 rps
+√ fast-json-parse               898,041 rps
+
+   Built-in JSON.parse            0%        (943,405 rps)   (avg: 1μs)
+   json3.parse                -2.63%        (918,587 rps)   (avg: 1μs)
+   json5.parse               -94.72%         (49,783 rps)   (avg: 20μs)
+   fast-json-parse            -4.81%        (898,041 rps)   (avg: 1μs)
+-----------------------------------------------------------------------
+
+*/

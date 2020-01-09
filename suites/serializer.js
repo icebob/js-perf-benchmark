@@ -333,3 +333,48 @@ let data = {
 
 benchmark.run([bench1, bench2]);
 
+/*
+========================
+  Serializer benchmark
+========================
+
+Platform info:
+==============
+   Windows_NT 6.1.7601 x64
+   Node.JS: 10.16.0
+   V8: 6.8.275.32-node.52
+   Intel(R) Core(TM) i7-4770K CPU @ 3.50GHz × 8
+
+JSON.stringify length:  207
+JSONPack length:  208
+avsc length:  106
+compactr length:  220
+protobuf length:  116
+Suite: Serialize object
+√ JSON.stringify            691,098 rps
+√ JSONPack.pack             122,033 rps
+√ avsc.toBuffer             903,610 rps
+√ compactr.write            132,644 rps
+√ protobuf.encode           709,338 rps
+
+   JSON.stringify        -23.52%        (691,098 rps)   (avg: 1μs)
+   JSONPack.pack         -86.49%        (122,033 rps)   (avg: 8μs)
+   avsc.toBuffer              0%        (903,610 rps)   (avg: 1μs)
+   compactr.write        -85.32%        (132,644 rps)   (avg: 7μs)
+   protobuf.encode        -21.5%        (709,338 rps)   (avg: 1μs)
+-----------------------------------------------------------------------
+
+Suite: Deserialize object
+√ JSON.parse                668,083 rps
+√ JSONPack.unpack           154,265 rps
+√ avsc.fromBuffer         1,152,441 rps
+√ compactr.read             312,056 rps
+√ protobuf.decode           992,548 rps
+
+   JSON.parse            -42.03%        (668,083 rps)   (avg: 1μs)
+   JSONPack.unpack       -86.61%        (154,265 rps)   (avg: 6μs)
+   avsc.fromBuffer            0%      (1,152,441 rps)   (avg: 867ns)
+   compactr.read         -72.92%        (312,056 rps)   (avg: 3μs)
+   protobuf.decode       -13.87%        (992,548 rps)   (avg: 1μs)
+-----------------------------------------------------------------------
+*/

@@ -59,3 +59,24 @@ bench.add("Reused instances", () => {
 });
 
 bench.run();
+
+/*
+===================
+  Class instances
+===================
+
+Platform info:
+==============
+   Windows_NT 6.1.7601 x64
+   Node.JS: 10.16.0
+   V8: 6.8.275.32-node.52
+   Intel(R) Core(TM) i7-4770K CPU @ 3.50GHz × 8
+
+Suite: Class instances performance
+√ Create new instance       370,657,510 rps
+√ Reused instances           34,146,535 rps
+
+   Create new instance            0%    (370,657,510 rps)   (avg: 2ns)
+   Reused instances          -90.79%     (34,146,535 rps)   (avg: 29ns)
+-----------------------------------------------------------------------
+*/

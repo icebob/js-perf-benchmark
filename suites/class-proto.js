@@ -40,3 +40,24 @@ bench.add("Class", () => {
 });
 
 bench.run();
+
+/*
+=======================
+  Class vs Prototypes
+=======================
+
+Platform info:
+==============
+   Windows_NT 6.1.7601 x64
+   Node.JS: 10.16.0
+   V8: 6.8.275.32-node.52
+   Intel(R) Core(TM) i7-4770K CPU @ 3.50GHz × 8
+
+Suite: Classes vs Prototype
+√ Prototype       375,685,478 rps
+√ Class           144,994,882 rps
+
+   Prototype            0%    (375,685,478 rps)   (avg: 2ns)
+   Class           -61.41%    (144,994,882 rps)   (avg: 6ns)
+-----------------------------------------------------------------------
+*/

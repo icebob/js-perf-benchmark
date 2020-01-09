@@ -91,3 +91,39 @@ bench1.run().then(() => {
 }).then(() => {
 	return bench3.run();
 });
+
+/*
+============================
+  Map vs. Object benchmark
+============================
+
+Platform info:
+==============
+   Windows_NT 6.1.7601 x64
+   Node.JS: 10.16.0
+   V8: 6.8.275.32-node.52
+   Intel(R) Core(TM) i7-4770K CPU @ 3.50GHz × 8
+
+Suite: Set Map vs. Add props to object
+√ Map.set                531 rps
+√ Object[]               464 rps
+
+   Map.set             0%            (531 rps)   (avg: 1ms)
+   Object[]       -12.73%            (464 rps)   (avg: 2ms)
+-----------------------------------------------------------------------
+
+Suite: Get Map vs. Get props from object
+√ Map.get                958 rps
+√ Object[]               626 rps
+
+   Map.get             0%            (958 rps)   (avg: 1ms)
+   Object[]        -34.7%            (626 rps)   (avg: 1ms)
+-----------------------------------------------------------------------
+
+Suite: Set & Get & Delete with UUID key
+√ Set & Get & Delete by uuid x 10k               197 rps
+
+   Set & Get & Delete by uuid x 10k            0%            (197 rps)   (avg: 5ms)
+-----------------------------------------------------------------------
+
+*/
