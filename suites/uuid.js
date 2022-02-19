@@ -2,6 +2,8 @@
 
 let Benchmarkify = require("benchmarkify");
 let benchmark = new Benchmarkify("UUID benchmark").printHeader();
+let crypto = require("crypto");
+
 
 let TokenGenerator = require("uuid-token-generator");
 let tokgen128 = new TokenGenerator(128, TokenGenerator.BASE62);
@@ -10,10 +12,16 @@ const uuidV3 = require("uuid/v3");
 const uuidV4 = require("uuid/v4");
 const uuidV5 = require("uuid/v5");
 const e7 = require("../utils/e7");
+const hyperid = require("hyperid")();
 
 let bench = benchmark.createSuite("UUID generators");
 
 // ----
+console.log("crypto-randomBytes:", crypto.randomUUID());
+bench.ref("crypto-randomUUID", () => {
+	return crypto.randomUUID();
+});
+
 console.log("uuid-token-generator:", tokgen128.generate());
 bench.add("uuid-token-generator", () => {
 	return tokgen128.generate();
@@ -42,6 +50,11 @@ bench.add("uuid v5", () => {
 console.log("e7:", e7());
 bench.add("e7", () => {
 	return e7();
+});
+
+console.log("hyperid", hyperid(true));
+bench.add("hyperid", () => {
+	return hyperid(true);
 });
 
 bench.run();
